@@ -1,6 +1,6 @@
 {
     "name" : "yolo-adventure",
-    "version" : "0.1",
+    "version" : "6.6.6",
     "dependencies" : {
         "socket.io": "~0.9.6"
     },
