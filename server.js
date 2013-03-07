@@ -83,13 +83,13 @@ function onNewPlayer(data) {
     newPlayer.id = this.id;
 
     // Broadcast new player to connected socket clients
-    this.broadcast.emit("new player", {id: newPlayer.id, x: newPlayer.getX(), y: newPlayer.getY()});
+    this.broadcast.emit("new", {id: newPlayer.id, x: newPlayer.getX(), y: newPlayer.getY()});
 
     // Send existing players to the new player
     var i, existingPlayer;
     for (i = 0; i < players.length; i++) {
         existingPlayer = players[i];
-        this.emit("new player", {id: existingPlayer.id, x: existingPlayer.getX(), y: existingPlayer.getY()});
+        this.emit("new", {id: existingPlayer.id, x: existingPlayer.getX(), y: existingPlayer.getY()});
     };
         
     // Add new player to the players array
@@ -112,7 +112,7 @@ function onMovePlayer(data) {
     movePlayer.setY(data.y);
 
     // Broadcast updated position to connected socket clients
-    this.broadcast.emit("move player", {id: movePlayer.id, x: movePlayer.getX(), y: movePlayer.getY()});
+    this.broadcast.emit("move", {id: movePlayer.id, x: movePlayer.getX(), y: movePlayer.getY()});
 };
 
 
