@@ -22,7 +22,7 @@ var canvas,	// DOM
 **************************************************/
 function init() {
 	// Connect the server
-	socket = io.connect("http://localhost", {port: 8080, transports: ["websocket"]});
+	socket = io.connect("http://localhost", {port: 8000, transports: ["websocket"]});
 
 	// Init keys
 	keys = new Keys();
@@ -49,19 +49,8 @@ function init() {
 ** Events
 **************************************************/
 var beginEvents = function () {
-	// Check for keydown
-	$(document).keydown(function(eventInformation) {
-			if(local){ 
-				keys.onKeyDown(eventInformation.which);
-			}
-	});
-
-	// Check for keyup
-	$(document).keyup(function(eventInformation) {
-			if(local){ 
-				keys.onKeyUp(eventInformation.which);
-			}
-	});
+	window.addEventListener("keydown", onKeydown, false);
+	window.addEventListener("keyup", onKeyup, false);
 
 	// Define socket events
 	socket.on("connect", socketConnect);
@@ -69,6 +58,21 @@ var beginEvents = function () {
 	socket.on("remove", removePlayer);
 	socket.on("move", movePlayer);
 }
+
+// Keyboard key down
+function onKeydown(e) {
+	if (local) {
+		keys.onKeyDown(e);
+	};
+};
+
+// Keyboard key up
+function onKeyup(e) {
+	if (local) {
+		keys.onKeyUp(e);
+	};
+};
+
 
 /**************************************************
 ** Socket events

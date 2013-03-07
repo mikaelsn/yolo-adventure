@@ -21,7 +21,7 @@ function init() {
     players = [];
 
     // Set up Socket.IO to listen on port 8000
-    socket = io.listen(8080);
+    socket = io.listen(8000);
 
     // Configure Socket.IO
     socket.configure(function() {
@@ -73,7 +73,7 @@ function onClientDisconnect() {
     players.splice(players.indexOf(removePlayer), 1);
 
     // Broadcast removed player to connected socket clients
-    this.broadcast.emit("remove player", {id: this.id});
+    this.broadcast.emit("remove", {id: this.id});
 };
 
 // New player has joined
