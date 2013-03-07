@@ -7,7 +7,7 @@ var util = require("util"),
 var socket,
     players;
 
-game.listen(parseInt(process.env.port));
+game.listen(80);
 
 function httpHandle (req, res) {
     fs.readFile(__dirname + "/public/" + req.url, function (err,data) {
