@@ -137,7 +137,6 @@ function playerById(id) {
         if (players[i].id == id)
             return players[i];
     };
-    
     return false;
 };
 
