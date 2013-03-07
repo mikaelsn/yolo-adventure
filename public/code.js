@@ -43,8 +43,6 @@ function init() {
 
 	// Events
 	beginEvents();
-
-	this.process = (function (self) {return function() { self.process();}; })(this);
 }
 
 /**************************************************
@@ -119,7 +117,7 @@ function findById(id) {
 function process() {
 	update();
 	draw();
-	setTimeout(this.process, 16);
+	window.requestAnimFrame(process);
 }
 
 
