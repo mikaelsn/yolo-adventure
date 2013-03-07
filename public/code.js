@@ -43,6 +43,8 @@ function init() {
 
 	// Events
 	beginEvents();
+
+	this.process = (function (self) {return function() { self.process();}; })(this);
 }
 
 /**************************************************
@@ -117,7 +119,7 @@ function findById(id) {
 function process() {
 	update();
 	draw();
-	window.requestAnimFrame(process);
+	setTimeout(this.process, 16);
 }
 
 
@@ -132,6 +134,7 @@ function update() {
 
 function draw() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+	ctx.beginPath();
 	ctx.arc(300,220,160,0,2*Math.PI); // Draw the gamefloor
 	ctx.stroke();
 
