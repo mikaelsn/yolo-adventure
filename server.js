@@ -1,16 +1,27 @@
-/**************************************************
-** NODE.JS REQUIREMENTS
-**************************************************/
-var util = require("util"),                 // Utility resources (logging, object inspection, etc)
-    io = require("socket.io"),              // Socket.IO
-    Player = require("./Player").Player;    // Player class
+var util = require("util"),
+    fs = require("fs"),
+    game = require("http").createServer(httpHandle),
+    io = require("socket.io"),
+    Player = require("./Player").Player;
+
+var socket,
+    players;
+
+game.listen(parseInt(process.env.port));
+
+function httpHandle (req, res) {
+    fs.readFile(__dirname + "/public/" + req.url, function (err,data) {
+        if (err) {
+          res.writeHead(404);
+          res.end(JSON.stringify(err));
+          return;
+        }
+        res.writeHead(200);
+        res.end(data);
+    });
+};
 
 
-/**************************************************
-** GAME VARIABLES
-**************************************************/
-var socket,     // Socket controller
-    players;    // Array of connected players
 
 
 /**************************************************
@@ -21,7 +32,7 @@ function init() {
     players = [];
 
     // Set up Socket.IO to listen on port 8000
-    socket = io.listen(8000);
+    socket = io.listen(game);
 
     // Configure Socket.IO
     socket.configure(function() {
