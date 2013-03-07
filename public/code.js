@@ -22,7 +22,7 @@ var canvas,	// DOM
 **************************************************/
 function init() {
 	// Connect the server
-	socket = io.connect("yolo-adventure.azurewebsites.net", {port: 1337, transports: ["websocket"]});
+	socket = io.connect("yolo-adventure.azurewebsites.net", {port: 80, transports: ["websocket"]});
 
 	// Init keys
 	keys = new Keys();
