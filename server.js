@@ -2,7 +2,8 @@ var util = require("util"),
     fs = require("fs"),
     game = require("http").createServer(httpHandle),
     io = require("socket.io"),
-    Player = require("./Player").Player;
+    Player = require("./Player").Player,
+    Ball = require("./Ball").Ball;
 
 var socket,
     players;
