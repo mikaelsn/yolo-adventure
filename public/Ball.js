@@ -1,8 +1,10 @@
 var Ball = function(x, y) {
+
 	var x = x,
 			y = y,
-			id;
-			
+			id,
+			move = 20;
+	
 	var getX = function() {
 		return x;
 	};
@@ -19,13 +21,23 @@ var Ball = function(x, y) {
 		y = newY;
 	};
 
+	var update = function(keys) {
+		
+	};
+
+	// Draw player
+	var draw = function(ctx) {
+		ctx.beginPath();
+		ctx.arc(95,50,40,0,2*Math.PI);
+		ctx.stroke();
+	};
+
 	return {
 		getX: getX,
 		getY: getY,
 		setX: setX,
 		setY: setY,
-		id: id
+		update: update,
+		draw: draw
 	}
 };
-
-exports.Ball = Ball;
