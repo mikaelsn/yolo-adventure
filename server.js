@@ -6,7 +6,8 @@ var util = require("util"),
     Ball = require("./Ball").Ball;
 
 var socket,
-    players;
+    players,
+    balls;
 
 game.listen(80);
 
@@ -29,8 +30,9 @@ function httpHandle (req, res) {
 ** GAME INITIALISATION
 **************************************************/
 function init() {
-    // Create an empty array to store players
+    // Create an empty array to store players and balls
     players = [];
+    balls = [];
 
     // Set up Socket.IO to listen on port 8000
     socket = io.listen(game);
@@ -67,6 +69,9 @@ function socketConnect(client) {
 
     // Listen for move player message
     client.on("move", onMovePlayer);
+
+    // Listen for new ball
+    client.on("newBall", onNewBall);
 };
 
 // Socket client has disconnected
@@ -107,6 +112,23 @@ function onNewPlayer(data) {
     // Add new player to the players array
     players.push(newPlayer);
 };
+
+function onNewBall (data) {
+    var newBall = new Ball(data.x, data.y, data.tx, data.ty);
+    newBall.id = this.id;
+
+    this.broadcast.emit("newBall", {id: newBall.id, x: newBall.getX(), y: newBall.getY(), tx: newBall.getTx(), ty: newBall.getTy()});
+
+    // Send existing balls to the new player
+    var i, existingBall;
+    for (i = 0; i < balls.length; i++) {
+        existingBall = balls[i];
+        this.emit("newBall", {id: existingBall.id, x: existingBall.getX(), y: existingBall.getY(), tx: existingBall.getTx(), ty: existingBall.getTy()});
+    };
+        
+    // Add new player to the players array
+    balls.push(newBall);
+}
 
 // Player has moved
 function onMovePlayer(data) {

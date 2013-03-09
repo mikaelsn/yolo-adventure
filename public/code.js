@@ -14,7 +14,8 @@ var canvas,	// DOM
 		keys,		// Keyboard
 		local,	// Me
 		others,	// Other players
-		socket;	// For socket.io
+		socket,	// For socket.io
+		balls;  
 
 
 /**************************************************
@@ -22,7 +23,7 @@ var canvas,	// DOM
 **************************************************/
 function init() {
 	// Connect the server
-	socket = io.connect("yolo-adventure.azurewebsites.net", {port: 80, transports: ["websocket"]});
+	socket = io.connect("http://localhost", {port: 80, transports: ["websocket"]});
 
 	// Init keys
 	keys = new Keys();
@@ -40,6 +41,7 @@ function init() {
 	var y = 240;
 	local = new Player(x, y);
 	others = [];
+	balls = [];
 
 	// Events
 	beginEvents();
@@ -51,12 +53,15 @@ function init() {
 var beginEvents = function () {
 	window.addEventListener("keydown", onKeydown, false);
 	window.addEventListener("keyup", onKeyup, false);
+	window.addEventListener("mousedown", newBall, false);
 
 	// Define socket events
 	socket.on("connect", socketConnect);
 	socket.on("new", newPlayer);
 	socket.on("remove", removePlayer);
 	socket.on("move", movePlayer);
+	socket.on("newBall", newBall);
+	socket.on("moveBall", moveBall);
 }
 
 // Keyboard key down
@@ -88,6 +93,18 @@ function newPlayer (data) {
 	others.push(newPlayer);
 }
 
+function newBall (data) {
+	var newBall = new Ball(local.getX, local.getY, data.pageX, data.pageY);
+	socket.emit("newBall", {x: local.getX(), y: local.getY(), tx: data.pageX, ty: data.pageY});
+	newBall.id = data.id;
+
+	balls.push(newBall);
+}
+
+function moveBall (data) {
+	var moveThis = findByBall(id);
+}
+
 function removePlayer (data) {
 	var remove = findById(data.id);
 	others.splice(others.indexOf(remove), 1);
@@ -108,6 +125,13 @@ function findById(id) {
 	for (i = 0; i < others.length; i++) {
 		if (others[i].id == id)
 			return others[i];
+	}
+}
+
+function findByBall(id) {
+	for (i = 0; i < balls.length; i++) {
+		if (balls[i].id == id)
+			return balls[i];
 	}
 }
 
