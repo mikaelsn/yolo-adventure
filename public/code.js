@@ -53,7 +53,7 @@ function init() {
 var beginEvents = function () {
 	window.addEventListener("keydown", onKeydown, false);
 	window.addEventListener("keyup", onKeyup, false);
-	window.addEventListener("mousedown", newLocalBall, false);
+	window.addEventListener("click", newLocalBall, false);
 
 	// Define socket events
 	socket.on("connect", socketConnect);
@@ -94,13 +94,14 @@ function newPlayer (data) {
 }
 
 function newBall (data) {
-	console.log("got a new ball!");
-	var newBall = new Ball(data.getX, data.getY, data.pageX, data.pageY);
+	console.log("got tx: " + data.tx + " ty: " + data.ty + " x: " + data.x + " y: " + data.y);
+	var newBall = new Ball(data.x, data.y, data.tx, data.ty);
 	newBall.id = data.id;
 	balls.push(newBall);
 }
 
 function newLocalBall (data) {
+	//console.log("sending tx: " + data.pageX + " ty: " + data.pageY + " x: " + local.getX() + " y: " + local.getY());
 	socket.emit("newBall", {x: local.getX(), y: local.getY(), tx: data.pageX, ty: data.pageY});
 }
 /**
