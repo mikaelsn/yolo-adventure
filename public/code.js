@@ -23,7 +23,7 @@ var canvas,	// DOM
 **************************************************/
 function init() {
 	// Connect the server
-	socket = io.connect("http://localhost", {port: 80, transports: ["websocket"]});
+	socket = io.connect("http://endeavour.dy.fi", {port: 8080, transports: ["websocket"]});
 
 	// Init keys
 	keys = new Keys();
@@ -160,6 +160,11 @@ function update() {
 
 	for (var i = 0; i < balls.length; i++) {
 		balls[i].update();
+        var x = balls[i].getX();
+        var y = balls[i].getY();
+        if(x < 0 || y < 0 || x > 640 || y > 480) {
+            balls.splice(i, 1);
+        }
 	};
 }
 
