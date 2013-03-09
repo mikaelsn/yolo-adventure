@@ -157,6 +157,10 @@ function update() {
 	if(local.update(keys)) {
 		socket.emit("move", {x: local.getX(), y: local.getY()})
 	}
+
+	for (var i = 0; i < balls.length; i++) {
+		balls[i].update();
+	};
 }
 
 function draw() {
