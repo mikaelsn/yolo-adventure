@@ -6,8 +6,7 @@ var Ball = function(x, y, tx, ty) {
 			ty = ty, // Targut y
 			vx, // Velocity x
 			vy, // Velocity y
-			id,
-			move=20;
+			id;
 	
 	var getX = function() {
 		return x;
@@ -58,11 +57,9 @@ var Ball = function(x, y, tx, ty) {
 	};	
 
 	var update = function(eventInfo) {
-		var targetX = tx - x,
-				targetY = ty - y,
+		var targetX = tx*5 - x,
+				targetY = ty*5 - y,
 				dist = Math.sqrt(targetX*targetX+targetY*targetY),
-				rad = Math.atan2(targetX, targetY),
-				angle = rad/Math.PI * 180;
 
 				vx = (targetX/dist)*10,
 				vy = (targetY/dist)*10;

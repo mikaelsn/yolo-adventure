@@ -119,14 +119,7 @@ function onNewBall (data) {
 
     this.broadcast.emit("newBall", {id: newBall.id, x: newBall.getX(), y: newBall.getY(), tx: newBall.getTx(), ty: newBall.getTy()});
     this.emit("newBall", {id: newBall.id, x: newBall.getX(), y: newBall.getY(), tx: newBall.getTx(), ty: newBall.getTy()});
-    console.log("emited x: " + newBall.getX() + " y: " + newBall.getY() + " tx: " + newBall.getTx() + " ty: " + newBall.getTy() + "id: " + newBall.id);
-    /**Send existing balls to the new player
-    for (i = 0; i < balls.length; i++) {
-        existingBall = balls[i];
-        this.emit("newBall", {id: existingBall.id, x: existingBall.getX(), y: existingBall.getY(), tx: existingBall.getTx(), ty: existingBall.getTy()});
-    }; **/
-        
-    // Add new player to the players array
+    // Add new ball to the players array
     balls.push(newBall);
 }
 
