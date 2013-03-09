@@ -61,7 +61,7 @@ var beginEvents = function () {
 	socket.on("remove", removePlayer);
 	socket.on("move", movePlayer);
 	socket.on("newBall", newBall);
-	socket.on("moveBall", moveBall);
+//	socket.on("moveBall", moveBall);
 }
 
 // Keyboard key down
@@ -94,6 +94,7 @@ function newPlayer (data) {
 }
 
 function newBall (data) {
+	console.log("got a new ball!");
 	var newBall = new Ball(data.getX, data.getY, data.pageX, data.pageY);
 	newBall.id = data.id;
 	balls.push(newBall);
@@ -167,6 +168,10 @@ function draw() {
 	for (var i = 0; i < others.length; i++) {
 		others[i].draw(ctx);
 	}
+
+	for (var i = 0; i < balls.length; i++) {
+		balls[i].draw(ctx);
+	};
 	
 	local.draw(ctx);
 }
