@@ -177,7 +177,7 @@ function update() {
         	console.log("SNAP");
         	gotBurned();
         }
-        
+
         // Ball out of map bounds, removing
         if(x < 0 || y < 0 || x > 640 || y > 480) {
             balls.splice(i, 1);
@@ -190,6 +190,8 @@ function draw() {
 	ctx.beginPath();
 	ctx.arc(300,220,160,0,2*Math.PI); // Draw the gamefloor
 	ctx.stroke();
+	ctx.font="30px Arial";
+	ctx.strokeText("#SWAG-ARENA",190,200);
 
 	// Players are drawn in player.js
 	for (var i = 0; i < others.length; i++) {

@@ -71,6 +71,7 @@ var Ball = function(x, y, tx, ty) {
 	// Draw ball
 	var draw = function(ctx) {
 		ctx.beginPath();
+		ctx.fillStyle = "#00FF00"
 		ctx.arc(x,y,15,0,2*Math.PI);
 		ctx.fill();
 	};

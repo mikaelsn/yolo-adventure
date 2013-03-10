@@ -61,7 +61,14 @@ var Player = function(x, y) {
 
 	// Draw player
 	var draw = function(ctx) {
-		ctx.fillRect(x-5, y-5, 10, 10);
+		if (!isThrower) {
+			ctx.fillStyle="red";
+			ctx.fillRect(x-5, y-5, 10, 10);
+		} else {
+			ctx.fillStyle="blue";
+			ctx.fillRect(x-5, y-5, 10, 10);
+		}
+		
 	};
 
 	return {
