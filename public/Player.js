@@ -46,6 +46,11 @@ var Player = function(x, y) {
 		} else if (keys.right) {
 			x += move;
 		};
+        if(x < 5 || y < 5 || y > 470 || x > 635) {
+            x = prevX;
+            y = prevY;
+            return false;
+        }
         if(!checkCollision(160, 300, 220, x, y) && !isThrower) {
             x = prevX;
             y = prevY;

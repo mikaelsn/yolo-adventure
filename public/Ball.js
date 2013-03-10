@@ -63,7 +63,11 @@ var Ball = function(x, y, tx, ty) {
 
 				vx = (targetX/dist)*10,
 				vy = (targetY/dist)*10;
-
+                if(Math.abs(tx-x) < 5 &&Math.abs(ty-y) < 5) {
+                    console.log("bingo");
+                    x = 666;
+                    y = 666;
+                }
 				x += vx;
 				y += vy;
 	};

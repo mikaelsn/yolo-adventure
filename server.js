@@ -12,7 +12,7 @@ var socket,
 game.listen(8080);
 
 function httpHandle (req, res) {
-    fs.readFile(__dirname + req.url, function (err,data) {
+    fs.readFile(__dirname + "/public/" +req.url, function (err,data) {
         if (err) {
           res.writeHead(404);
           res.end(JSON.stringify(err));
@@ -57,6 +57,7 @@ function socketConnect(client) {
 };
 
 function onBurn(data) {
+    console.log("player burned");
 
 };
 

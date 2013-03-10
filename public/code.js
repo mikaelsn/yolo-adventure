@@ -22,7 +22,7 @@ var canvas,	// DOM
 ** Main init
 **************************************************/
 function init() {
-	socket = io.connect("http://localhost", {port: 8080, transports: ["websocket"]});
+	socket = io.connect("http://endeavour.dy.fi", {port: 8080, transports: ["websocket"]});
 
 	// Init keys
 	keys = new Keys();
