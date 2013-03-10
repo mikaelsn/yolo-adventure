@@ -2,6 +2,7 @@ var Player = function(x, y) {
 
 	var x = x,
 			y = y,
+            isThrower = false,
 			id,
 			move = 20;
 	
@@ -21,6 +22,15 @@ var Player = function(x, y) {
 		y = newY;
 	};
 
+    var setThrower = function() {
+        isThrower = true;
+    };
+
+    var unsetThrower = function() {
+        isThrower = false;
+    };
+  
+
 	var update = function(keys) {
 		var prevX = x,
 				prevY = y;
@@ -37,6 +47,16 @@ var Player = function(x, y) {
 		} else if (keys.right) {
 			x += move;
 		};
+        if(!checkCollision(160, 300, 220, x, y) && !isThrower) {
+            x = prevX;
+            y = prevY;
+            return false;
+        }
+        if(checkCollision(160, 300, 220, x, y) && isThrower) {
+            x = prevX;
+            y = prevY;
+            return false;
+        }
 
 		return (prevX != x || prevY != y) ? true : false;
 	};

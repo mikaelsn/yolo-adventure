@@ -1,5 +1,6 @@
 var Player = function(x, y) {
 	var x = x,
+            isThrower = false,
 			y = y,
 			id;
 			
@@ -10,6 +11,14 @@ var Player = function(x, y) {
 	var getY = function() {
 		return y;
 	};
+
+    var setThrower = function() {
+        isThrower = true;
+    };
+
+    var unsetThrower = function() {
+        isThrower = false;
+    };
 
 	var setX = function(newX) {
 		x = newX;

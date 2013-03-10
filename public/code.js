@@ -61,7 +61,7 @@ var beginEvents = function () {
 	socket.on("remove", removePlayer);
 	socket.on("move", movePlayer);
 	socket.on("newBall", newBall);
-//	socket.on("moveBall", moveBall);
+    socket.on("gotburned", gotBurned);
 }
 
 // Keyboard key down
@@ -78,6 +78,9 @@ function onKeyup(e) {
 	};
 };
 
+function gotBurned() {
+
+}
 
 /**************************************************
 ** Socket events
@@ -153,6 +156,13 @@ function process() {
 /**************************************************
 ** Local update and drawing
 **************************************************/
+
+function checkCollision(ballRadius, ballX, ballY, playerX, playerY) {
+    ballDist = Math.pow((ballX - playerX), 2) + 
+                    Math.pow((ballY - playerY), 2);
+    return ballDist <= Math.pow(ballRadius, 2);
+}
+
 function update() {
 	if(local.update(keys)) {
 		socket.emit("move", {x: local.getX(), y: local.getY()})
@@ -162,10 +172,17 @@ function update() {
 		balls[i].update();
         var x = balls[i].getX();
         var y = balls[i].getY();
+    	for (var j = 0; j < others.length; j++) {
+            if(checkCollision(17, x, y, others[j].getX(), others[j].getY())) {
+                socket.emit("burned", { id: others[j].id });
+            }
+        }
         if(x < 0 || y < 0 || x > 640 || y > 480) {
             balls.splice(i, 1);
         }
+    
 	};
+                
 }
 
 function draw() {

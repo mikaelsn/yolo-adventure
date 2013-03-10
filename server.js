@@ -9,7 +9,7 @@ var socket,
     players,
     balls;
 
-game.listen(80);
+game.listen(8080);
 
 function httpHandle (req, res) {
     fs.readFile(__dirname + "/public/" + req.url, function (err,data) {
@@ -26,27 +26,17 @@ function httpHandle (req, res) {
 
 
 
-/**************************************************
-** GAME INITIALISATION
-**************************************************/
 function init() {
-    // Create an empty array to store players and balls
     players = [];
     balls = [];
 
-    // Set up Socket.IO to listen on port 8000
     socket = io.listen(game);
 
-    // Configure Socket.IO
     socket.configure(function() {
-        // Only use WebSockets
         socket.set("transports", ["websocket"]);
-
-        // Restrict log output
         socket.set("log level", 2);
     });
 
-    // Start listening for events
     beginEvents();
 };
 
@@ -55,32 +45,27 @@ function init() {
 ** GAME EVENT HANDLERS
 **************************************************/
 var beginEvents = function() {
-    // Socket.IO
     socket.sockets.on("connection", socketConnect);
 };
 
-// New socket connection
 function socketConnect(client) {
-    // Listen for client disconnected
     client.on("disconnect", onClientDisconnect);
-
-    // Listen for new player message
     client.on("new", onNewPlayer);
-
-    // Listen for move player message
     client.on("move", onMovePlayer);
-
-    // Listen for new ball
     client.on("newBall", onNewBall);
+    client.on("burned", onBurn);
 };
 
-// Socket client has disconnected
+function onBurn(data) {
+    print(io.sockets[data.id]);    
+
+};
+
 function onClientDisconnect() {
     util.log("Player has disconnected: "+this.id);
 
     var removePlayer = playerById(this.id);
 
-    // Player not found
     if (!removePlayer) {
         util.log("Player not found: "+this.id);
         return;
@@ -93,9 +78,7 @@ function onClientDisconnect() {
     this.broadcast.emit("remove", {id: this.id});
 };
 
-// New player has joined
 function onNewPlayer(data) {
-    // Create a new player
     var newPlayer = new Player(data.x, data.y);
     newPlayer.id = this.id;
 
@@ -109,7 +92,6 @@ function onNewPlayer(data) {
         this.emit("new", {id: existingPlayer.id, x: existingPlayer.getX(), y: existingPlayer.getY()});
     };
         
-    // Add new player to the players array
     players.push(newPlayer);
 };
 
@@ -119,11 +101,9 @@ function onNewBall (data) {
 
     this.broadcast.emit("newBall", {id: newBall.id, x: newBall.getX(), y: newBall.getY(), tx: newBall.getTx(), ty: newBall.getTy()});
     this.emit("newBall", {id: newBall.id, x: newBall.getX(), y: newBall.getY(), tx: newBall.getTx(), ty: newBall.getTy()});
-    // Add new ball to the players array
     balls.push(newBall);
 }
 
-// Player has moved
 function onMovePlayer(data) {
     // Find player in array
     var movePlayer = playerById(this.id);
@@ -134,11 +114,9 @@ function onMovePlayer(data) {
         return;
     };
 
-    // Update player position
     movePlayer.setX(data.x);
     movePlayer.setY(data.y);
 
-    // Broadcast updated position to connected socket clients
     this.broadcast.emit("move", {id: movePlayer.id, x: movePlayer.getX(), y: movePlayer.getY()});
 };
 
