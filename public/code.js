@@ -173,13 +173,11 @@ function update() {
         var x = balls[i].getX();
         var y = balls[i].getY();
         
-        // Check for burned players
-    	for (var j = 0; j < others.length; j++) {
-            if(checkCollision(17, x, y, others[j].getX(), others[j].getY())) {
-                socket.emit("burned", { id: others[j].id });
-            }
+        if(checkCollision(17, x, y, local.getX(), local.getY()) && !local.getThrower()) {
+        	console.log("SNAP");
+        	gotBurned();
         }
-
+        
         // Ball out of map bounds, removing
         if(x < 0 || y < 0 || x > 640 || y > 480) {
             balls.splice(i, 1);
