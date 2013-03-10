@@ -7,12 +7,17 @@
     </head>
     <body>       
         <canvas id="yolo" width="640" height="480"></canvas>
-        <script src="/socket.io/socket.io.js"></script>
+        <input type="text" id="message" /><button>send</button>
+        <div id="realtimedata"></div>
+
+        <script src="http://localhost:8080/socket.io/socket.io.js"></script>
         <script src="jquery-1.9.1.js"></script>
         <script src="keys.js"></script>
         <script src="Player.js"></script>
         <script src="Ball.js"></script>
         <script src="code.js"></script>
+        <script src="jXsockets.js"></script>  
+        <script src="chat.js"></script>
         <script>
             init();
             process();
