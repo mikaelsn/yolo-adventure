@@ -105,7 +105,7 @@ function onNewBall (data) {
     newBall.id = this.id;
 
     this.broadcast.emit("newBall", {id: newBall.id, x: newBall.getX(), y: newBall.getY(), tx: newBall.getTx(), ty: newBall.getTy()});
-    this.emit("newBall", {id: newBall.id, x: newBall.getX(), y: newBall.getY(), tx: newBall.getTx(), ty: newBall.getTy()});
+//    this.emit("newBall", {id: newBall.id, x: newBall.getX(), y: newBall.getY(), tx: newBall.getTx(), ty: newBall.getTy()});
     balls.push(newBall);
 }
 

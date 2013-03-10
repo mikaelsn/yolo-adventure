@@ -109,6 +109,9 @@ function newBall (data) {
 function newLocalBall (data) {
     if(local.getThrower()) { 
     	socket.emit("newBall", {x: local.getX(), y: local.getY(), tx: data.pageX, ty: data.pageY});
+	    var newBall = new Ball(local.getX(), local.getY(), data.pageX, data.pageY);
+    	newBall.id = data.id;
+    	balls.push(newBall);
     };
 }
 
