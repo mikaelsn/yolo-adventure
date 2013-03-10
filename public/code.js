@@ -22,7 +22,6 @@ var canvas,	// DOM
 ** Main init
 **************************************************/
 function init() {
-	// Connect the server
 	socket = io.connect("http://localhost", {port: 8080, transports: ["websocket"]});
 
 	// Init keys
