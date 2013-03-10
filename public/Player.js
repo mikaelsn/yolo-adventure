@@ -30,6 +30,10 @@ var Player = function(x, y) {
     	return isThrower;
     };
 
+    var getId = function() {
+    	return id;
+    };
+
 	var update = function(keys) {
 		var prevX = x,
 				prevY = y;
@@ -84,6 +88,7 @@ var Player = function(x, y) {
     setThrower: setThrower,
     getThrower: getThrower,
 		update: update,
-		draw: draw
+		draw: draw,
+		getId: getId
 	}
 };

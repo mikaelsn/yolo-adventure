@@ -28,6 +28,10 @@ var Player = function(x, y) {
 		y = newY;
 	};
 
+	var getId = function() {
+		return id;
+	}
+
 	return {
 		getX: getX,
 		getY: getY,
