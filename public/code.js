@@ -22,7 +22,7 @@ var canvas,	// DOM
 ** Main init
 **************************************************/
 function init() {
-	socket = io.connect("http://endeavour.dy.fi", {port: 8080, transports: ["websocket"]});
+	socket = io.connect("http://localhost", {port: 8080, transports: ["websocket"]});
 
 	// Init keys
 	keys = new Keys();
@@ -173,8 +173,8 @@ function update() {
         var y = balls[i].getY();
         
         if(checkCollision(17, x, y, local.getX(), local.getY()) && !local.getThrower()) {
-        	console.log("SNAP");
         	gotBurned();
+        	socket.emit("burned");
         }
 
         // Ball out of map bounds, removing

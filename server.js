@@ -57,8 +57,7 @@ function socketConnect(client) {
 };
 
 function onBurn(data) {
-    console.log("player burned");
-
+    playerById(this.id).setThrower(true);
 };
 
 function onClientDisconnect() {
@@ -79,23 +78,27 @@ function onClientDisconnect() {
 };
 
 function onNewPlayer(data) {
+    var anyThowers = false;
     var newPlayer = new Player(data.x, data.y);
     newPlayer.id = this.id;
 
-    // Broadcast new player to connected socket clients
-    this.broadcast.emit("new", {id: newPlayer.id, x: newPlayer.getX(), y: newPlayer.getY()});
-
-    // First player thus becomes thrower
-    if(players.length == 0) {
-        console.log("first player");
-        this.emit("setthrower", { id: this.id })
-    }
     // Send existing players to the new player
     var i, existingPlayer;
     for (i = 0; i < players.length; i++) {
+        if(players[i].getThrower()){
+            anyThowers = true;
+        }
         existingPlayer = players[i];
         this.emit("new", {id: existingPlayer.id, x: existingPlayer.getX(), y: existingPlayer.getY()});
     };
+    
+    // Broadcast new player to connected socket clients
+    this.broadcast.emit("new", {id: newPlayer.id, x: newPlayer.getX(), y: newPlayer.getY()});
+
+    if(!anyThowers){
+        this.emit("setthrower", { id: this.id });
+        newPlayer.setThrower(true);
+    }
         
     players.push(newPlayer);
 };
