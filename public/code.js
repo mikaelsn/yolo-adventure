@@ -23,7 +23,7 @@ var canvas,	// DOM
 **************************************************/
 function init() {
 	// Connect the server
-	socket = io.connect("http://endeavour.dy.fi", {port: 8080, transports: ["websocket"]});
+	socket = io.connect("http://localhost", {port: 8080, transports: ["websocket"]});
 
 	// Init keys
 	keys = new Keys();
@@ -61,7 +61,7 @@ var beginEvents = function () {
 	socket.on("remove", removePlayer);
 	socket.on("move", movePlayer);
 	socket.on("newBall", newBall);
-    socket.on("setthrower", gotBurned);
+  socket.on("setthrower", gotBurned);
 }
 
 // Keyboard key down
@@ -80,7 +80,7 @@ function onKeyup(e) {
 
 function gotBurned(data) {
     console.log("got burned");
-    local.isThrower = true;
+    local.setThrower(true);
     local.setX(10);
     local.setY(10);
 	socket.emit("move", {x: local.getX(), y: local.getY()})
@@ -108,16 +108,10 @@ function newBall (data) {
 }
 
 function newLocalBall (data) {
-	//console.log("sending tx: " + data.pageX + " ty: " + data.pageY + " x: " + local.getX() + " y: " + local.getY());
-    if(local.isThrower) { // XXX isThrower rikki Playerissa
+    if(local.getThrower()) { 
     	socket.emit("newBall", {x: local.getX(), y: local.getY(), tx: data.pageX, ty: data.pageY});
     };
 }
-/**
-function moveBall (data) {
-	var moveThis = findByBall(id);
-}
-**/
 
 function removePlayer (data) {
 	var remove = findById(data.id);

@@ -2,7 +2,7 @@ var Player = function(x, y) {
 
 	var x = x,
 			y = y,
-            isThrower = false,
+      isThrower = false,
 			id,
 			move = 5;
 	
@@ -22,12 +22,12 @@ var Player = function(x, y) {
 		y = newY;
 	};
 
-    var setThrower = function() {
-        isThrower = true;
+    var setThrower = function(status) {
+    	isThrower = status;
     };
 
-    var unsetThrower = function() {
-        isThrower = false;
+    var getThrower = function() {
+    	return isThrower;
     };
 
 	var update = function(keys) {
@@ -69,9 +69,8 @@ var Player = function(x, y) {
 		getY: getY,
 		setX: setX,
 		setY: setY,
-        setThrower: setThrower,
-        unsetThrower: unsetThrower,
-        isThrower: isThrower,
+    setThrower: setThrower,
+    getThrower: getThrower,
 		update: update,
 		draw: draw
 	}

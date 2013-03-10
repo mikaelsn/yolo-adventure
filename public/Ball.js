@@ -57,8 +57,8 @@ var Ball = function(x, y, tx, ty) {
 	};	
 
 	var update = function(eventInfo) {
-		var targetX = tx*5 - x,
-				targetY = ty*5 - y,
+		var targetX = tx - x,
+				targetY = ty - y,
 				dist = Math.sqrt(targetX*targetX+targetY*targetY),
 
 				vx = (targetX/dist)*10,
