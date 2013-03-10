@@ -57,7 +57,6 @@ function socketConnect(client) {
 };
 
 function onBurn(data) {
-    print(io.sockets[data.id]);    
 
 };
 
@@ -85,6 +84,11 @@ function onNewPlayer(data) {
     // Broadcast new player to connected socket clients
     this.broadcast.emit("new", {id: newPlayer.id, x: newPlayer.getX(), y: newPlayer.getY()});
 
+    // First player thus becomes thrower
+    if(players.length == 0) {
+        console.log("first player");
+        this.emit("setthrower", { id: this.id })
+    }
     // Send existing players to the new player
     var i, existingPlayer;
     for (i = 0; i < players.length; i++) {

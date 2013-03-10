@@ -61,7 +61,7 @@ var beginEvents = function () {
 	socket.on("remove", removePlayer);
 	socket.on("move", movePlayer);
 	socket.on("newBall", newBall);
-    socket.on("gotburned", gotBurned);
+    socket.on("setthrower", gotBurned);
 }
 
 // Keyboard key down
@@ -78,8 +78,12 @@ function onKeyup(e) {
 	};
 };
 
-function gotBurned() {
-
+function gotBurned(data) {
+    console.log("got burned");
+    local.isThrower = true;
+    local.setX(10);
+    local.setY(10);
+	socket.emit("move", {x: local.getX(), y: local.getY()})
 }
 
 /**************************************************
@@ -105,7 +109,9 @@ function newBall (data) {
 
 function newLocalBall (data) {
 	//console.log("sending tx: " + data.pageX + " ty: " + data.pageY + " x: " + local.getX() + " y: " + local.getY());
-	socket.emit("newBall", {x: local.getX(), y: local.getY(), tx: data.pageX, ty: data.pageY});
+    if(local.isThrower) { // XXX isThrower rikki Playerissa
+    	socket.emit("newBall", {x: local.getX(), y: local.getY(), tx: data.pageX, ty: data.pageY});
+    };
 }
 /**
 function moveBall (data) {
@@ -172,17 +178,19 @@ function update() {
 		balls[i].update();
         var x = balls[i].getX();
         var y = balls[i].getY();
+        
+        // Check for burned players
     	for (var j = 0; j < others.length; j++) {
             if(checkCollision(17, x, y, others[j].getX(), others[j].getY())) {
                 socket.emit("burned", { id: others[j].id });
             }
         }
+
+        // Ball out of map bounds, removing
         if(x < 0 || y < 0 || x > 640 || y > 480) {
             balls.splice(i, 1);
         }
-    
 	};
-                
 }
 
 function draw() {
